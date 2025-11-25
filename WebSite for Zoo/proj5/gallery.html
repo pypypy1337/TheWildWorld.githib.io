@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Галерея — Зоопарк «Дикий мир»</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--muted:#6b7280}
+body{font-family:'Nunito'; margin:0; background:#fbfdfb; color:#0f1724}
+.container{width:min(1100px,96%); margin:0 auto; padding:18px}
+.header{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px}
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px}
+.tile{background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 10px 30px rgba(2,6,23,0.06); cursor:pointer; display:flex; align-items:center; justify-content:center; height:160px; font-weight:700; color:var(--muted)}
+.toolbar{display:flex; gap:8px; align-items:center}
+.lightbox{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(2,6,23,0.7); z-index:120}
+.lightbox img{max-width:92%; max-height:86%; border-radius:8px; box-shadow:0 30px 80px rgba(2,6,23,0.6)}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header"><h2>Галерея</h2><div class="toolbar"><a href="index.html">← Главная</a></div></div>
+  <p>Ниже — заглушки для изображений. Замените на реальные фото, указав ссылки в коде или разместив их в папке <code>/images</code>.</p>
+  <div class="grid" id="grid">
+    <div class="tile" data-src="images/photo1.jpg">Амурский тигр</div>
+    <div class="tile" data-src="images/photo2.jpg">Большая панда</div>
+    <div class="tile" data-src="images/photo3.jpg">Африканский слон</div>
+    <div class="tile" data-src="images/photo4.jpg">Пингвины</div>
+    <div class="tile" data-src="images/photo5.jpg">Птицы</div>
+    <div class="tile" data-src="images/photo6.jpg">Рептилии</div>
+  </div>
+</div>
+
+<div id="lightbox" class="lightbox" onclick="closeLB()"><img id="lbImg" alt="Просмотр"></div>
+
+<script>
+const tiles = document.querySelectorAll('.tile');
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+tiles.forEach(t=> t.addEventListener('click', ()=>{
+  const src = t.getAttribute('data-src');
+  // if image exists, show; otherwise show placeholder canvas
+  const img = new Image();
+  img.onload = ()=>{ lbImg.src = src; lb.style.display='flex' }
+  img.onerror = ()=>{ lbImg.src = ''; lb.style.display='flex'; lbImg.alt='Изображение не найдено'; lbImg.style.background='#fff'; lbImg.style.padding='24px'; lbImg.style.borderRadius='8px'; lbImg.style.boxShadow='0 20px 50px rgba(0,0,0,0.2)'; lbImg.textContent = t.textContent; }
+  img.src = src;
+}))
+function closeLB(){ lb.style.display='none'; lbImg.src=''; lbImg.style=''; }
+</script>
+</body>
+</html>

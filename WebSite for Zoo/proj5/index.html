@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Зоопарк «Дикий мир» — Главная</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6fbf6; --card:#fff; --muted:#6b7280; --accent:#f59e0b; --green:#16a34a;
+  --glass: rgba(255,255,255,0.7);
+}
+*{box-sizing:border-box}
+body{font-family:'Nunito',system-ui,-apple-system,Segoe UI,Roboto; margin:0; background:linear-gradient(180deg,#f0fbf6, #f7fbff); color:#0f1724;}
+.container{width:min(1150px,96%); margin:0 auto;}
+header{background:linear-gradient(135deg,#147a43,#16a34a); color:white; padding:18px 0; border-bottom-left-radius:24px; border-bottom-right-radius:24px; box-shadow:0 12px 40px rgba(6,23,11,0.25); position:relative; overflow:hidden;}
+.header-inner{display:flex; align-items:center; justify-content:space-between; gap:12px;}
+.logo{display:flex; align-items:center; gap:12px;}
+.logo-mark{width:50px;height:50px;border-radius:12px;background:linear-gradient(180deg,#facc15,#fb923c);box-shadow:0 10px 24px rgba(0,0,0,0.15);}
+.logo h1{font-family:'Montserrat';font-size:1.25rem;margin:0}
+.nav{display:flex; gap:10px; align-items:center;}
+.nav a{color:white; text-decoration:none; padding:8px 12px; border-radius:999px; font-weight:600; font-size:0.95rem; opacity:0.95;}
+.nav a.btn{background:#fff;color:#0f1724; box-shadow:0 8px 18px rgba(0,0,0,0.15);}
+.auth-group{display:flex; gap:8px; align-items:center;}
+.profile-pill{background:rgba(255,255,255,0.12); padding:6px 10px; border-radius:999px; display:flex; gap:8px; align-items:center; cursor:pointer;}
+.fade-in{opacity:0; transform:translateY(8px); animation:fadeIn .5s forwards ease;}
+@keyframes fadeIn{to{opacity:1; transform:none}}
+.hero{padding:28px 0;}
+.hero-grid{display:grid; grid-template-columns:1fr 420px; gap:22px; align-items:center;}
+.hero-card{background:var(--card); border-radius:18px; padding:18px; box-shadow:0 16px 40px rgba(2,6,23,0.08);}
+.badges{display:flex; gap:8px; margin:8px 0;}
+.badge{background:#ecfccb; color:#166534; padding:6px 10px; border-radius:999px; font-weight:700; font-size:0.85rem;}
+.section{margin:20px 0;}
+.section-card{background:var(--card); padding:18px; border-radius:16px; box-shadow:0 10px 30px rgba(2,6,23,0.05);}
+footer{margin-top:20px; padding:18px 0; background:rgba(255,255,255,0.9);}
+.modal-bg{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(2,6,23,0.45); z-index:60;}
+.modal{width:360px; background:var(--card); border-radius:14px; padding:18px; box-shadow:0 30px 80px rgba(2,6,23,0.4); transform:scale(.97); opacity:0; animation:pop .32s forwards;}
+@keyframes pop{to{transform:scale(1); opacity:1}}
+.form-row{margin:8px 0;}
+.input{width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6e9ef;}
+.row{display:flex; gap:12px; align-items:center;}
+.space{flex:1}
+.btn{display:inline-block; padding:9px 14px; border-radius:10px; cursor:pointer; border:none; font-weight:700}
+.btn-primary{background:linear-gradient(90deg,var(--accent),#fb923c); color:#081124}
+.btn-ghost{background:transparent; color:white; border:1px solid rgba(255,255,255,0.18)}
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px;}
+.card-img{height:140px; background:linear-gradient(180deg,#e6f9ea,#eef7ff); border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-weight:700;}
+@media(max-width:900px){ .hero-grid{grid-template-columns:1fr} .nav{display:none} }
+</style>
+</head>
+<body>
+<header>
+  <div class="container header-inner">
+    <div class="logo"><div class="logo-mark" aria-hidden="true"></div><div><h1>Зоопарк «Дикий мир»</h1><div style="font-size:0.8rem; color:rgba(255,255,255,0.9)">Удивительный мир животных</div></div></div>
+    <nav class="nav" aria-label="Главное меню">
+      <a href="index.html">Главная</a>
+      <a href="gallery.html">Галерея</a>
+      <a href="map.html">Карта</a>
+      <a href="donate.html">Поддержать</a>
+      <a href="tickets.html" class="btn btn-primary">Купить билеты</a>
+    </nav>
+    <div class="auth-group">
+      <div id="profileArea" class="profile-pill" onclick="openProfile()" style="display:none">
+        <span id="profileName">Имя</span> ▾
+      </div>
+      <button id="authBtn" class="btn btn-ghost" onclick="openAuth()">Вход / Регистрация</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero fade-in">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-card">
+          <h2 style="font-family:Montserrat;">Добро пожаловать в «Дикий мир»</h2>
+          <p>Более 500 видов, программы сохранения и мероприятия круглый год. Подпишитесь и получите скидку на первые билеты.</p>
+          <div class="badges">
+            <div class="badge">500+ видов</div>
+            <div class="badge">50 гектар парков</div>
+            <div class="badge">Экскурсии</div>
+          </div>
+          <div style="margin-top:12px;">
+            <button class="btn btn-primary" onclick="location.href='tickets.html'">Купить билеты</button>
+            <button class="btn" style="margin-left:8px" onclick="openAuth()">Войти</button>
+          </div>
+        </div>
+
+        <div class="section" style="margin-top:14px;">
+          <div class="section-card">
+            <h3>О зоопарке</h3>
+            <p class="lead">Наша миссия — сохранение и просвещение. Мы участвуем в международных программах и заботимся о благополучии животных.</p>
+            <div class="row" style="margin-top:10px;">
+              <div class="card-img"><img src="https://scx1.b-cdn.net/csz/news/800a/2025/bengal-tigers-are-enda.jpg" width="250" height="150"></div>
+              <div class="card-img"><img src="https://i.pinimg.com/474x/6a/4e/97/6a4e974d5770b9fcbf55ec68df56961f.jpg?nii=t" width="250" height="150"></div>
+              <div class="card-img"><img src="https://avatars.mds.yandex.net/get-vthumb/218190/e740f937b370d0b59f732e554b0cfe0b/564x318_1" width="250" height="150"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="hero-card">
+          <h4>Сегодня в программе</h4>
+          <ul style="margin-left:18px; color:var(--muted)">
+            <li>11:00 — Кормление амурских тигров</li>
+            <li>12:30 — Встреча с зоологом</li>
+            <li>14:00 — Показательные полёты птиц</li>
+          </ul>
+          <div style="margin-top:12px; font-size:0.9rem; color:var(--muted)">Оставьте отзыв и получите купон</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-card">
+      <h3>Галерея</h3>
+      <p>Некоторые фото животных и территорий.</p>
+      <div class="grid" id="galleryPreview">
+        <div class="card-img">Фото 1</div>
+        <div class="card-img">Фото 2</div>
+        <div class="card-img">Фото 3</div>
+        <div class="card-img">Фото 4</div>
+      </div>
+      <div style="margin-top:10px;"><a href="gallery.html" class="btn">Открыть галерею</a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-card">
+      <h3>Карта парка</h3>
+      <p>Удобная карта с отмеченными зонами, кафе и парковкой.</p>
+      <div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Яндекс Карты</a><a href="https://yandex.ru/maps/geo/moskva/53166393/?ll=38.077226%2C56.096079&utm_medium=mapframe&utm_source=maps&z=9.59" style="color:#eee;font-size:12px;position:absolute;top:14px;">Москва — Яндекс Карты</a><iframe src="https://yandex.ru/map-widget/v1/?ll=38.077226%2C56.096079&mode=poi&poi%5Bpoint%5D=37.617188%2C55.755892&poi%5Buri%5D=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1MzE2NjM5MxIa0KDQvtGB0YHQuNGPLCDQnNC-0YHQutCy0LAiCg14eBZCFfUFX0I%2C&z=9.59" width="1100" height="620" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
+      <div style="margin-top:10px;"><a href="map.html" class="btn">Открыть карту</a></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container" style="display:flex; align-items:center; justify-content:space-between;">
+    <div>© 2025 Зоопарк «Дикий мир». Все права защищены.</div>
+    <div><a href="donate.html" class="btn">Поддержать</a></div>
+  </div>
+</footer>
+<div id="modal" class="modal-bg" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div id="authContent">
+    </div>
+    <div style="margin-top:10px; text-align:right;"><button class="btn" onclick="closeAuth()">Закрыть</button></div>
+  </div>
+</div>
+
+<script>
+const modal = document.getElementById('modal');
+const authContent = document.getElementById('authContent');
+const authBtn = document.getElementById('authBtn');
+const profileArea = document.getElementById('profileArea');
+const profileName = document.getElementById('profileName');
+
+function openAuth(mode='login'){
+  renderAuth(mode);
+  modal.style.display='flex';
+  modal.setAttribute('aria-hidden','false');
+}
+function closeAuth(){
+  modal.style.display='none';
+  modal.setAttribute('aria-hidden','true');
+}
+function renderAuth(mode){
+  if(mode==='login'){
+    authContent.innerHTML = `
+      <h3 id="authTitle">Войти</h3>
+      <div class="form-row"><input id="email" class="input" placeholder="Email"></div>
+      <div class="form-row"><input id="password" type="password" class="input" placeholder="Пароль"></div>
+      <div style="display:flex; gap:8px; margin-top:8px"><button class="btn btn-primary" onclick="doLogin()">Войти</button><button class="btn" onclick="renderAuth('register')">Регистрация</button></div>
+      <div style="margin-top:10px; color:var(--muted); font-size:0.9rem">Данные сохраняются только в вашем браузере (LocalStorage).</div>`;
+  } else {
+    authContent.innerHTML = `
+      <h3 id="authTitle">Регистрация</h3>
+      <div class="form-row"><input id="regEmail" class="input" placeholder="Email"></div>
+      <div class="form-row"><input id="regPassword" type="password" class="input" placeholder="Пароль"></div>
+      <div class="form-row"><input id="regName" class="input" placeholder="Как к вам обращаться"></div>
+      <div style="display:flex; gap:8px; margin-top:8px"><button class="btn btn-primary" onclick="doRegister()">Создать аккаунт</button><button class="btn" onclick="renderAuth('login')">Уже есть аккаунт</button></div>
+      <div style="margin-top:10px; color:var(--muted); font-size:0.9rem">Пароль хранится в LocalStorage в зашифрованном виде (demo). Не используйте реальные пароли.</div>`;
+  }
+}
+
+function doRegister(){
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPassword').value;
+  const name = document.getElementById('regName').value.trim() || 'Гость';
+  if(!email || !pass){ alert('Введите email и пароль'); return; }
+  const users = JSON.parse(localStorage.getItem('zoo_users')||'{}');
+  if(users[email]){ alert('Пользователь уже существует'); return; }
+  const hash = btoa(pass);
+  users[email] = {pass:hash, name};
+  localStorage.setItem('zoo_users', JSON.stringify(users));
+  alert('Аккаунт создан — выполните вход');
+  renderAuth('login');
+}
+
+function doLogin(){
+  const email = document.getElementById('email').value.trim();
+  const pass = document.getElementById('password').value;
+  if(!email || !pass){ alert('Введите email и пароль'); return; }
+  const users = JSON.parse(localStorage.getItem('zoo_users')||'{}');
+  const user = users[email];
+  if(!user || user.pass !== btoa(pass)){ alert('Неверный email или пароль'); return; }
+  localStorage.setItem('zoo_session', JSON.stringify({email, name:user.name}));
+  closeAuth();
+  applySession();
+}
+
+function applySession(){
+  const session = JSON.parse(localStorage.getItem('zoo_session')||'null');
+  if(session){
+    authBtn.style.display='none';
+    profileArea.style.display='flex';
+    profileName.textContent = session.name || session.email;
+  } else {
+    authBtn.style.display='inline-block';
+    profileArea.style.display='none';
+  }
+}
+
+function openProfile(){
+  const session = JSON.parse(localStorage.getItem('zoo_session')||'null');
+  if(!session){ openAuth(); return; }
+  const menu = document.createElement('div');
+  menu.style=minimalMenuStyle();
+  menu.innerHTML = `<div style="padding:10px 14px"><strong>${session.name}</strong><div style="color:var(--muted); font-size:0.9rem">${session.email}</div><div style="height:8px"></div><button class='btn' onclick='gotoProfile()'>Профиль</button> <button class='btn btn-primary' onclick='doLogout()'>Выйти</button></div>`;
+  document.body.appendChild(menu);
+  setTimeout(()=> menu.style.opacity=1,10);
+  function remove(){ menu.remove(); document.removeEventListener('click',remove) }
+  setTimeout(()=> document.addEventListener('click', remove),50);
+}
+
+function minimalMenuStyle(){
+  return 'position:fixed; right:18px; top:86px; z-index:120; background:white; border-radius:12px; box-shadow:0 20px 60px rgba(2,6,23,0.14); opacity:0; transition:opacity .15s;';
+}
+
+function gotoProfile(){ alert('Здесь можно показать страницу профиля (в будущем).'); }
+function doLogout(){ localStorage.removeItem('zoo_session'); alert('Вы вышли'); applySession(); }
+applySession();
+</script>
+</body>
+</html>

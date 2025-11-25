@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Поддержать — Зоопарк «Дикий мир»</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<style>body{font-family:'Nunito'; margin:0; background:#fffdf9} .container{width:min(900px,96%); margin:18px auto; padding:18px} .card{background:#fff; padding:18px; border-radius:12px; box-shadow:0 12px 40px rgba(2,6,23,0.06)} .row{display:flex; gap:8px; align-items:center} .input{padding:10px; border-radius:8px; border:1px solid #e8e8e8; width:100%} .btn{padding:10px 14px; border-radius:8px; border:none; cursor:pointer} .btn-primary{background:linear-gradient(90deg,#f59e0b,#fb923c); color:#081124; font-weight:700}</style>
+</head>
+<body>
+<div class="container">
+  <div style="display:flex; justify-content:space-between; align-items:center"><h2>Поддержать зоопарк</h2><a href="index.html">← Главная</a></div>
+  <div class="card">
+    <p>Ваш взнос помогает кормить животных, финансировать программы спасения и поддерживать вольеры.</p>
+    <div style="margin-top:8px;">
+      <label>Сумма (₽)</label>
+      <input id="amount" class="input" type="number" min="100" value="500">
+    </div>
+    <div style="margin-top:8px;">
+      <label>Имя (необязательно)</label>
+      <input id="donorName" class="input" placeholder="Ваше имя">
+    </div>
+    <div style="margin-top:12px;" class="row">
+      <button class="btn btn-primary" onclick="donate()">Пожертвовать</button>
+      <button class="btn" onclick="viewDonations()">Посмотреть прошлые пожертвования</button>
+    </div>
+    <div id="donMsg" style="margin-top:10px; color:#166534"></div>
+  </div>
+
+  <div style="margin-top:14px;" class="card" id="historyCard" hidden>
+    <h3>История пожертвований (локально)</h3>
+    <div id="historyList"></div>
+  </div>
+</div>
+
+<script>
+function donate(){
+  const amount = Number(document.getElementById('amount').value) || 0;
+  const name = document.getElementById('donorName').value || 'Аноним';
+  if(amount < 1){ alert('Введите корректную сумму'); return; }
+  const store = JSON.parse(localStorage.getItem('zoo_donations')||'[]');
+  const entry = {amount, name, date:new Date().toISOString()};
+  store.push(entry);
+  localStorage.setItem('zoo_donations', JSON.stringify(store));
+  document.getElementById('donMsg').textContent = `Спасибо, ${name}! Мы получили ${amount} ₽.`;
+  setTimeout(()=> document.getElementById('donMsg').textContent='', 4500);
+}
+
+function viewDonations(){
+  const store = JSON.parse(localStorage.getItem('zoo_donations')||'[]');
+  const historyCard = document.getElementById('historyCard');
+  const list = document.getElementById('historyList');
+  list.innerHTML = '';
+  if(store.length === 0){ list.textContent = 'Пожертвований не найдено (локально).'; historyCard.hidden = false; return; }
+  store.slice().reverse().forEach(s=>{
+    const d = new Date(s.date);
+    const el = document.createElement('div');
+    el.style.padding='8px 6px';
+    el.style.borderBottom='1px solid #f1f1f1';
+    el.textContent = `${d.toLocaleString()} — ${s.name} — ${s.amount} ₽`;
+    list.appendChild(el);
+  });
+  historyCard.hidden = false;
+}
+</script>
+</body>
+</html>

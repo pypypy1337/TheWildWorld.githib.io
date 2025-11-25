@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Купить билеты — Зоопарк «Дикий мир»</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --green:#16a34a;
+  --accent:#f59e0b;
+  --bg:#f7fff8;
+  --card:#ffffff;
+  --muted:#6b7280;
+}
+body{margin:0; font-family:'Nunito'; background:var(--bg); color:#0f1724;}
+.container{width:min(900px,95%); margin:20px auto;}
+
+h2{margin:0 0 12px 0;}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 12px 40px rgba(2,6,23,0.06);
+  margin-bottom:16px;
+}
+
+.btn{
+  display:inline-block;
+  padding:12px 18px;
+  font-weight:700;
+  border-radius:12px;
+  cursor:pointer;
+  text-align:center;
+  border:none;
+  transition:.2s;
+  font-size:1rem;
+}
+.btn-primary{
+  background:linear-gradient(90deg,#34d399,#059669);
+  color:white;
+  box-shadow:0 8px 20px rgba(5,150,105,0.35);
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 24px rgba(5,150,105,0.45);
+}
+
+.btn-accent{
+  background:linear-gradient(90deg,#fbbf24,#fb923c);
+  color:#0f1724;
+  box-shadow:0 8px 20px rgba(251,146,60,0.35);
+}
+.btn-accent:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 24px rgba(251,146,60,0.45);
+}
+
+.input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  margin:6px 0 12px 0;
+}
+
+.ticket-type{
+  padding:14px;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  margin-bottom:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+.ticket-type:hover{
+  background:#f0fdf4;
+  border-color:#86efac;
+}
+.ticket-type h4{margin:0 0 6px 0;}
+
+.total{
+  font-size:1.3rem;
+  font-weight:700;
+  margin-top:12px;
+  text-align:right;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <a href="index.html" style="text-decoration:none; font-weight:600; color:var(--muted)">← Назад</a>
+  <h2>Купить билеты</h2>
+
+  <div class="card">
+    <h3>Выберите тип билета</h3>
+
+    <div class="ticket-type" onclick="selectTicket('adult',800)">
+      <h4>Взрослый — 800 ₽</h4>
+      <div>От 15 лет</div>
+    </div>
+
+    <div class="ticket-type" onclick="selectTicket('child',400)">
+      <h4>Детский — 400 ₽</h4>
+      <div>3–14 лет</div>
+    </div>
+
+    <div class="ticket-type" onclick="selectTicket('senior',500)">
+      <h4>Пенсионер — 500 ₽</h4>
+      <div>При предъявлении удостоверения</div>
+    </div>
+
+    <div class="ticket-type" onclick="selectTicket('free',0)">
+      <h4>Бесплатно</h4>
+      <div>Дети до 3 лет, инвалиды I–II группы, сопровождающие</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Данные покупателя</h3>
+    <input id="name" class="input" placeholder="Ваше имя">
+    <input id="email" class="input" placeholder="Email">
+  </div>
+
+  <div class="card">
+    <h3>Итог</h3>
+    <div id="ticketInfo" style="margin-bottom:10px; color:var(--muted)">Билет не выбран</div>
+    <div class="total" id="total">0 ₽</div>
+
+    <button class="btn btn-primary" style="width:100%; margin-top:12px" onclick="buyTicket()">Оплатить</button>
+  </div>
+
+</div>
+
+<script>
+let selected = null;
+let price = 0;
+
+function selectTicket(type, cost){
+  selected = type;
+  price = cost;
+  document.getElementById('ticketInfo').textContent =
+    'Вы выбрали: ' + type + ' — ' + cost + ' ₽';
+  document.getElementById('total').textContent = cost + ' ₽';
+}
+
+function buyTicket(){
+  if(!selected){ alert('Выберите билет'); return; }
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if(!name || !email){ alert('Введите имя и email'); return; }
+
+  const purchase = {
+    type: selected,
+    price: price,
+    name: name,
+    email: email,
+    time: new Date().toISOString()
+  };
+
+  const store = JSON.parse(localStorage.getItem('zoo_tickets') || '[]');
+  store.push(purchase);
+  localStorage.setItem('zoo_tickets', JSON.stringify(store));
+
+  alert('Покупка успешна! Билет отправлен на ' + email);
+}
+</script>
+</body>
+</html>
